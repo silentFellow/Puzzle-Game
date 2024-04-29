@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;;;
+import { canSwap, shuffle, swap, isSolved } from "@utils";
+
+function Board({ image, setImages }) {
+  const [tiles, setTiles] = useState([...Array(TILE_COUNT).keys()]);
+  const [isStarted, setIsStarted] = useState(false);
+
+  const shuffleTiles = () => {
+    const shuffledTiles = shuffle(tiles);
+    setTiles(shuffledTiles);
+  };
+
+  const swapTiles = (tileIndex) => {
+    if (canSwap(tileIndex, tiles.indexOf(tiles.length - 1))) {
+      const swappedTiles = swap(
+        tiles,
+        tileIndex,
+        tiles.indexOf(tiles.length - 1),
+      );
+      setTiles(swappedTiles);
+    }
+  };
+
+  const handleTileClick = (index) => {
+    swapTiles(index);
+  };
+
+  const handleShuffleClick = () => {
+    shuffleTiles();
+  };
+
+  const handleStartClick = () => {
+    shuffleTiles();
+    setIsStarted(true);
+  };
+
+  const pieceWidth = Math.round(BOARD_SIZE / GRID_SIZE);
+  const pieceHeight = Math.round(BOARD_SIZE / GRID_SIZE);
+  const style = {
+    width: BOARD_SIZE,
+    height: BOARD_SIZE,
+  };
+  const hasWon = isSolved(tiles);
+
+  useEffect(() => {
+    if (!hasWon && !isStarted) return;
+    setImages((images) =>
+      images.map((img) => {
+        if (img.id === image.id + 1) {
+          return { ...img, interactable: true };
+        } else {
+          return { ...img, interactable: false };
+        }
+      }),
+    );
+    setImages((images) =>
+      images.map((img) => {
+        if (img.id === image.id) {
+          return { ...img, solved: true };
+        } else {
+          return img; // Return the unchanged image if not matching
+        }
+      }),
+    );
+  }, [hasWon, isStarted]);
+
+  return (
+    <>
+      <ul
+        style={style}
+        className={`${!image?.interactable && "pointer-events-none opacity-80"} board`}
+      
+
+  return (
+    <>
+      <ul
+        style={style}
+        className={`${!image?.interactable && "pointer-events-none opacity-80"} board`}
+      
+        {
+          id: 2,
+          image: AnimeGirl,
+          solved: false,
+          interactable: false,
+        },
+      ]);
+    }
+  }, [id]);
+
+  return (
+    // wrap for entire section
+    <div className="screen bg-light-bg around">
+      <Board image={images[0]} etImages={setImages} />
+      <FaLongArrowAltRight size={36} />
+      <Board image={images[1]} setImages={setImages} />
+      <FaLongArrowAltRight size={36} />
+      <Board image={images[2]} setImages={setImages} />
+    </div>
+  );
+};
+
+export default Puzzle;
