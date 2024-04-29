@@ -9,7 +9,7 @@ const Details = ({ details, id }) => {
       <div className="h-[33rem] w-[33rem] bg-light-bg rounded-lg p-6">
 
         {/* details */}
-        <div className="w-full h-[90%] overflow-auto">
+        <div className="w-full h-[90%] text-light-secondary font-bold overflow-auto">
           {details || lor}
         </div>
 
