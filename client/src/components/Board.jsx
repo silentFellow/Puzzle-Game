@@ -48,15 +48,6 @@ function Board({ image, setImages }) {
     if(!hasWon) return;
     setImages((images) =>
       images.map((img) => {
-        if (img?.id === image?.id + 1) {
-          return { ...img, interactable: true };
-        } else {
-          return { ...img, interactable: false };
-        }
-      })
-    );
-    setImages((images) =>
-      images.map((img) => {
         if (img?.id === image?.id) {
           return { ...img, solved: true };
         } else {
@@ -68,7 +59,7 @@ function Board({ image, setImages }) {
 
   return (
     <>
-      <ul style={style} className={`${!image?.interactable && "pointer-events-none opacity-80"} board`}>
+      <ul style={style} className="board">
         {tiles.map((tile, index) => (
           <Tile
             key={tile}

@@ -1,9 +1,9 @@
 import Home from "./Home";
 import Puzzle from "./Puzzle";
-import Quiz from "./Quiz";
+import Profile from "./Profile";
 
 export {
   Home,
   Puzzle,
-  Quiz
+  Profile
 }

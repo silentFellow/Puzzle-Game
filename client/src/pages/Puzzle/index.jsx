@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { FaLongArrowAltRight } from "react-icons/fa";
 import { CheraFirst, CheraSecond, CheraThird, CholaFirst, CholaSecond, CholaThird, PandyaFirst, PandyaSecond, PandyaThird } from "@assets";
 import { Board, Details } from "@components";
 
@@ -9,6 +8,7 @@ const Puzzle = () => {
   const [images, setImages] = useState([]);
   const [details, setDetails] = useState("");
   const [showDetails, setShowDetails] = useState(false);
+  const [showFinished, setShowFinished] = useState(false);
 
   useEffect(() => {
     if(id === "chera") {
@@ -16,20 +16,17 @@ const Puzzle = () => {
         {
           "id": 0,
           "image": CheraFirst,
-          "solved": true,
-          "interactable": true
+          "solved": false,
         },
         {
           "id": 1,
           "image": CheraSecond,
-          "solved": true,
-          "interactable": false
+          "solved": false,
         },
         {
           "id": 2,
           "image": CheraThird,
-          "solved": true,
-          "interactable": false
+          "solved": false,
         },
       ]);
       setDetails("")
@@ -39,19 +36,16 @@ const Puzzle = () => {
           "id": 0,
           "image": CholaFirst,
           "solved": false,
-          "interactable": true
         },
         {
           "id": 1,
           "image": CholaSecond,
           "solved": false,
-          "interactable": false
         },
         {
           "id": 2,
           "image": CholaThird,
           "solved": false,
-          "interactable": false
         },
       ]);
       setDetails("")
@@ -61,42 +55,44 @@ const Puzzle = () => {
           "id": 0,
           "image": PandyaFirst,
           "solved": false,
-          "interactable": true
         },
         {
           "id": 1,
           "image": PandyaSecond,
           "solved": false,
-          "interactable": false
         },
         {
           "id": 2,
           "image": PandyaThird,
           "solved": false,
-          "interactable": false
         },
       ]);
       setDetails("")
     }
+
   }, [id])
 
   useEffect(() => {
-    if(!images[0] && !images[1] && !images[2]) return
-    if(images[0].solved && images[1].solved && images[2].solved) setShowDetails(true);
+    if(images.length === 0) return
+    if(images.some(img => img.solved)) setShowFinished(true);
+    else setShowFinished(false);
+
+    if(images.every(img => img.solved)) setShowDetails(true);
+    else setShowDetails(false);
   }, [images])
 
   return (
     // wrap for entire section
-    <div className="screen bg-light-bg around">
+    <div className="screen bg-light-bg flex">
 
       {/* details section */}
       { showDetails && <Details details={details} id={id} /> }
 
-      <Board image={images[0]} setImages={setImages} />
-      <FaLongArrowAltRight size={36} />
-      <Board image={images[1]} setImages={setImages} />
-      <FaLongArrowAltRight size={36} />
-      <Board image={images[2]} setImages={setImages} />
+      <div className="screen center">
+        { !images[0]?.solved && <Board image={images[0]} setImages={setImages} /> }
+        { images[0]?.solved && !images[1]?.solved && <Board image={images[1]} setImages={setImages} /> }
+        { images[1]?.solved && !images[2]?.solved && <Board image={images[2]} setImages={setImages} /> }
+      </div>
 
     </div>
   )

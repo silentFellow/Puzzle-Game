@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Home, Puzzle, Quiz } from "@pages";
+import { Home, Puzzle, Profile } from "@pages";
 import "./index.css"
 
 const App = () => {
@@ -8,7 +8,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/solve/:id" element={<Puzzle />} />
-        <Route path="/quiz/:id" element={<Quiz />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   )
